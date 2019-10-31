@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gatos</title>
+    <link rel="icon" sizes="32x32" href="favicon.ico">
+    <meta name="theme-color" content="#099D0B">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="estilos.css">
+    <script type="module" src="lib/registraServiceWorker.js"></script>
+    <script src="lib/polycustom.js"></script>
+    <script type="module" src="mi-footer.js"></script>
+  </head>
+  <body>
+    <center>
+    <form id="vista">
+      <header>
+        <a href="index.html">Cancelar</a>
+        <button type="submit">Guardar gato</button>
+        <button id="eliminar" type="button">Eliminar gato</button>
+        <h1><output id="título"><progress max="100">Cargando…</progress></h1>
+        <br>
+      </header>
+      <br><br><br>
+      <h1><b>Editando el gato:</b></h1>
+      <p style="color: white;">Puede editar el nombre del gato: <input id="nombre" type="text" placeholder="Nombre" pattern="[A-Za-z]{4,15}" required></p>
+      <p style="color: white;">Puede editar la edad del gato: <input id="edad" type="text" placeholder="Edad" required></p>
+      <p style="color: white;">Puede editar la raza del gato: <input id="raza" type="text" placeholder="Raza" pattern="[A-Za-z]{4,15}" required></p>
+      <br><br><br>
+      <footer is="mi-footer"></footer>
+    </form>
+    </center>
+    <script src="/__/firebase/7.2.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.2.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script type="module">
+      import { error } from "./lib/util.js";
+      const parametros = new URLSearchParams(location.search);
+      const id = parametros.get("id");
+      const firestore = firebase.firestore();
+      firestore.enablePersistence()
+        .catch(error)
+        .then(busca);
+      async function busca() {
+        try {
+          const doc = await firestore.collection("GATOS").doc(id).get();
+          if (doc.exists) {
+            const gatos = doc.data();
+            document.title = gatos.GATO_NOMBRE;
+            título.value = gatos.GATO_NOMBRE;
+            nombre.value = gatos.GATO_NOMBRE;
+            edad.value = gatos.GATO_EDAD;
+            raza.value = gatos.GATO_RAZA;
+            vista.addEventListener("submit", guarda);
+            eliminar.addEventListener("click", elimina);
+          } else {
+            alert("Gato no encontrado");
+          }
+        } catch (e) {
+          error(e)
+        }
+      }
+      async function guarda(evt) {
+        try {
+          evt.preventDefault();
+          const GATO_NOMBRE = nombre.value.trim();
+          const GATO_EDAD = edad.value.trim();
+          const GATO_RAZA = raza.value.trim();
+          const gatos = { GATO_NOMBRE,GATO_EDAD,GATO_RAZA };
+          await firestore.collection("GATOS").doc(id).set(gatos);
+          document.location = "index.html";
+        } catch (e) {
+          error(e)
+        }
+      }
+
+      
+
+      async function elimina() {
+        try {
+          await firestore.collection("GATOS").doc(id).delete();
+          document.location = "index.html";
+        } catch (e) {
+          error(e)
+        }
+      }
+    </script>
+  </body>
+</html>

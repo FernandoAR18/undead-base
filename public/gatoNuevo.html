@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gato nuevo</title>
+    <link rel="icon" sizes="32x32" href="favicon.ico">
+    <meta name="theme-color" content="#099D0B">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="estilos.css">
+    <script type="module" src="lib/registraServiceWorker.js"></script>
+    <script src="lib/polycustom.js"></script>
+    <script type="module" src="mi-footer.js"></script>
+  </head>
+  <body>
+    <form id="vista">
+      <header>
+        <center>
+        <a href="index.html"><b>Cancelar</b></a>
+        <button type="submit"><b>Guardar gato</b></button>
+        <h1>Gato nuevo</h1>
+        <br>
+        </center>
+      </header>
+      <br><br><br><br><br><br><br>
+      <center>
+      <h2>Ingrese un gato nuevo</h2>
+      <p style="color: white;">Nombre del gato: <input id="nombre" type="text" placeholder="Nombre" pattern="[A-Za-z]{4,15}" required></p>
+      <p style="color: white;">Edad del gato: <input id="edad" type="text" placeholder="Edad" required></p>
+      <p style="color: white;">Raza del gato: <input id="raza" type="text" placeholder="Raza" pattern="[A-Za-z]{4,15}" required></p>
+      <br><br><br><br><br><br><br><br><br>
+      <footer is="mi-footer"></footer>
+    </center> 
+    </form>
+    <script src="/__/firebase/7.2.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.2.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script type="module">
+      import { error } from "./lib/util.js";
+      const firestore = firebase.firestore();
+      firestore.enablePersistence()
+        .catch(error)
+        .then(() => vista.addEventListener("submit", guarda));
+      async function guarda(evt) {
+        try {
+          evt.preventDefault();
+          const GATO_NOMBRE = nombre.value.trim();
+          const GATO_EDAD = edad.value.trim();
+          const GATO_RAZA = raza.value.trim();
+          const gatos = { GATO_NOMBRE,GATO_EDAD,GATO_RAZA };
+          await firestore.collection("GATOS").add(gatos);
+          document.location = "index.html";
+        } catch (e) {
+          error(e)
+        }
+      }
+    </script>
+  </body>
+</html>
