@@ -24,10 +24,10 @@
       </header>
       <br><br><br><br><br><br><br>
       <center>
-      <h2>Ingrese un gato nuevo</h2>
-      <p style="color: white;">Nombre del gato: <input id="nombre" type="text" placeholder="Nombre" pattern="[A-Za-z]{4,15}" required></p>
-      <p style="color: white;">Edad del gato: <input id="edad" type="text" placeholder="Edad" required></p>
-      <p style="color: white;">Raza del gato: <input id="raza" type="text" placeholder="Raza" pattern="[A-Za-z]{4,15}" required></p>
+      <h2>Ingresar un gato nuevo</h2>
+      <p style="color: white;">Nombre: <input id="nombre" type="text" placeholder="Nombre" pattern="[A-Za-záÁéÉíÍóÓúÚ]{4,15}" required></p>
+      <p style="color: white;">Edad: <input id="edad" min="1" oninput="validity.valid||(value='');"  type="number" placeholder="Edad" required></p>
+      <p style="color: white;">Raza: <input id="raza" type="text" placeholder="Raza" pattern="[A-Za-záÁéÉíÍóÓúÚ]{4,15}" required></p>
       <br><br><br><br><br><br><br><br><br>
       <footer is="mi-footer"></footer>
     </center> 

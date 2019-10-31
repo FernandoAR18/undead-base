@@ -24,9 +24,9 @@
       </header>
       <br><br><br>
       <h1><b>Editando el gato:</b></h1>
-      <p style="color: white;">Puede editar el nombre del gato: <input id="nombre" type="text" placeholder="Nombre" pattern="[A-Za-z]{4,15}" required></p>
-      <p style="color: white;">Puede editar la edad del gato: <input id="edad" type="text" placeholder="Edad" required></p>
-      <p style="color: white;">Puede editar la raza del gato: <input id="raza" type="text" placeholder="Raza" pattern="[A-Za-z]{4,15}" required></p>
+      <p style="color: white;">Nombre: <input id="nombre" type="text" placeholder="Nombre" pattern="[A-Za-z]{4,15}" required></p>
+      <p style="color: white;">Edad: <input id="edad" min="1" oninput="validity.valid||(value='');" type="number" placeholder="Edad" required></p>
+      <p style="color: white;">Raza: <input id="raza" type="text" placeholder="Raza" pattern="[A-Za-z]{4,15}" required></p>
       <br><br><br>
       <footer is="mi-footer"></footer>
     </form>
